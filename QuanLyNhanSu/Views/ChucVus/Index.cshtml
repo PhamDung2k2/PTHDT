@@ -1,0 +1,85 @@
+﻿@model IEnumerable<QuanLyNhanSu.Models.ChucVu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string msg = Convert.ToString(TempData["ErrorMessage"]);
+}
+@if (msg != null && msg != "")
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+<h2 class="text-center">Danh Sách Chức Vụ</h2>
+
+<div class="form-group row">
+    <div class="">
+        <a href="@Url.Action("Create", "ChucVus")" class="btn btn-outline-success">Thêm mới</a>
+    </div>
+</div>
+
+<table class="table table-hover text-center ">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.TenCV)
+        </th>
+        <th class="text-center">Thao Tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenCV)
+            </td>
+            <td>
+                @*<a href="@Url.Action("Details", "ChucVu", new { id = item.IdCV })" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Chi Tiết"><i class="fa fa-book"></i></a>
+                *@<a href="@Url.Action("Edit", "ChucVus", new { id = item.IdCV })" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Chỉnh Sửa"><i class="fas fa-pen"></i></a>
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#del_@item.IdCV">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+@foreach (var item in Model)
+{
+
+    <!-- The Modal -->
+    <div class="modal" id="del_@item.IdCV">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">Xóa Chức Vụ </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-center">
+                    Bạn Có Chắc Muốn Xóa Chức Vụ Này?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    @using (Html.BeginForm("Delete", "ChucVus", new { id = item.IdCV }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                        </div>
+                    }
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}

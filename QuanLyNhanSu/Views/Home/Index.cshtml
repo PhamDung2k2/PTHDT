@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<h2>@ViewBag.mk</h2>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Tổng quan hệ thống</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-6 col-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@ViewBag.NV<sup style="font-size: 20px"></sup></h3>
+
+                        <p>Số nhân viên của hệ thống</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>@ViewBag.PB<sup style="font-size: 20px"></sup></h3>
+
+                        <p>Số phòng ban của hệ thống</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <img src="~/public/image/z4855331569376_5f60ceea982da6cb06888491bfd86bfb.jpg"/>
+            </div>
+        </div>
+</section>

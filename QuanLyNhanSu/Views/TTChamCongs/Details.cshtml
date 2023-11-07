@@ -1,0 +1,59 @@
+﻿@model QuanLyNhanSu.Models.TTChamCong
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TTChamCong</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayCC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayCC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TVao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TVao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TRa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ViPham)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ViPham)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NhanVien.HoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NhanVien.HoTen)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdCC }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

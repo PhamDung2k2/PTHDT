@@ -1,0 +1,63 @@
+﻿@model QuanLyNhanSu.Models.HopDong
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="padding-left:150px">Chỉnh Sửa Hợp Đồng</h2>
+
+@using (Html.BeginForm("Edit", "HopDongs", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdHD)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdNV, "Nhân Viên", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdNV", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenHD, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenHD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenHD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TuNgay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.TuNgay, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control", @value = Model.TuNgay.Value.ToString("yyyy-MM-dd") })
+                @Html.ValidationMessageFor(model => model.TuNgay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DenNgay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DenNgay, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control", @value = Model.DenNgay.Value.ToString("yyyy-MM-dd") })
+                @Html.ValidationMessageFor(model => model.DenNgay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập Nhật" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <div style="padding-left: 10px">
+        <button class="btn btn-danger w3-right w3-border" onclick="window.location.href='@Url.Action("Index")'">Trở lại</button>
+    </div>
+</div>

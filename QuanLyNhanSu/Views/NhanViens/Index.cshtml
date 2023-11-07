@@ -1,0 +1,181 @@
+﻿@model IEnumerable<QuanLyNhanSu.Models.NhanVien>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.getElementById('tinhLuongBtn').addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn sự kiện mặc định của nút submit
+
+            var thangCongInput = document.getElementById('thangCongInput').value;
+            var thangCong = parseInt(thangCongInput);
+
+            if (isNaN(thangCong) || thangCong < 1 || thangCong > 12) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Lỗi',
+                    text: 'Vui lòng chỉ nhập số từ 1 đến 12!'
+                });
+            } else {
+                document.forms[0].submit();
+            }
+        });
+    </script>
+}
+<h2 class="text-center">Danh Sách Nhân Viên</h2>
+
+<div class="form-group">
+    <div class="">
+        <a href="@Url.Action("Create","NhanViens")" class="btn btn-outline-success " style="margin-top: 15px; margin-right: 15px">Thêm mới</a>
+    </div>
+    @using (Html.BeginForm("TinhLuong", "NhanViens", FormMethod.Post))
+    {
+        <div class="form-group form-inline " style="margin-block-start:15px;">
+            <div class="form-group ">
+                <input type="text" class="form-control" id="thangCongInput" name="ThangCong" placeholder="Nhập Tháng Để Tính Lương" style="width:230px " />
+            </div>
+            <button type="submit" id="tinhLuongBtn" class="btn btn-success" style="margin-left: 5px">Tính Lương</button>
+        </div>
+    }
+</div>
+<table class="table table-hover text-center ">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.IdNV)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.HoTen)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.SDT)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.GioiTinh)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.NgaySinh)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.QueQuan)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.DanToc)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.ChuyenNganh)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.ChucVu.TenCV)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.PhongBan.TenPhong)
+        </th>
+        <th class="text-center">Thao Tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GioiTinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgaySinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QueQuan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DanToc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChuyenNganh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChucVu.TenCV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhongBan.TenPhong)
+            </td>
+            <td>
+                @*<a href="@Url.Action("Details", "NhanVien", new { id = item.IdNV })" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Chi Tiết"><i class="fa fa-book"></i></a>
+                *@<a href="@Url.Action("Edit", "NhanViens", new { id = item.IdNV })" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Chỉnh Sửa"><i class="fas fa-pen"></i></a>
+                @{
+                    if (item.IdNV != 1)
+                    {
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#del_@item.IdNV">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    }
+                }
+
+            </td>
+
+        </tr>
+
+    }
+
+</table>
+@foreach (var item in Model)
+{
+
+    <!-- The Modal -->
+    <div class="modal" id="del_@item.IdNV">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">Xóa Nhân Viên </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-center">
+                    Bạn Có Chắc Muốn Xóa Nhân Viên Này?
+                    <br />
+                    Các Dữ Liệu Liên Quan Đến Nhân Viên Này Sẽ Mất Hết!
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    @using (Html.BeginForm("Delete", "NhanViens", new { id = item.IdNV }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                        </div>
+                    }
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}

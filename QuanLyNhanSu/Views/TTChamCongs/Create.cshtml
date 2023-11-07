@@ -1,0 +1,140 @@
+﻿@model QuanLyNhanSu.Models.TTChamCong
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string formattedTime = DateTime.Now.ToString("HH:mm:ss");
+
+}
+
+<h2>Chấm Công</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdNV, "Tên Nhân Viên", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p class="form-control">@Session["HoTen_user"]</p>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TVao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("TVao", formattedTime, new { @class = "form-control", @disabled = "disabled"  })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TRa, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("TRa", formattedTime, new { @class = "form-control" , @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class=" d-flex flex-row ">
+            
+            <button id="checkin" type="submit" class="btn btn-success mx-2">Checkin</button>
+            
+            <button id="checkout" type="submit" class="btn btn-danger mx-2 ">Checkout</button>
+      
+        </div>
+    </div>
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    // Gọi hàm xử lý sự kiện click từ button khác
+    @*$('#checkin').click(function (e) {
+        // Kiểm tra trạng thái từ session cookie
+        var isDisabled = sessionStorage.getItem('isButtonDisabled');
+
+        if (isDisabled === 'true') {
+            // Nếu nút đã bị vô hiệu hóa, không thực hiện gì cả
+            return;
+        }
+
+        // Vô hiệu hóa nút
+        $(this).prop('disabled', true);
+        sessionStorage.setItem('isButtonDisabled', 'true');
+
+        // Thực hiện yêu cầu AJAX
+        $.ajax({
+            type: 'GET',
+            url: '/TTChamCongs/Checkin',
+            success: function (response) {
+                alert("Bạn đã chấm công thành công!");
+            },
+            error: function () {
+                // Xử lý lỗi (nếu cần)
+            }
+        });
+    });*@
+
+    // Gọi hàm xử lý sự kiện click từ button khác
+   @* $('#btn-delete-submit').click(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '/Home/DeleteBillSubmit',
+            data: { CatId: id },
+            success: function (response) {
+                window.location.reload();
+            }
+        });
+    });
+*@
+    $('#checkin').click(function (e) {
+        // Gọi yêu cầu AJAX
+        $.ajax({
+            type: 'GET',
+            url: '/TTChamCongs/Checkin/',
+            success: function (response) {
+                if (response.success) {
+                    alert("Bạn đã chấm công thành công!");
+                }
+                else {
+                    alert("Không thể chấm công. Bạn đã chấm công vào rồi.");
+                }
+                
+            },
+           @* error: function () {
+                // Xử lý lỗi (nếu cần)
+                alert("Không thể chấm công. Nhân viên đã chấm công cùng một ngày.");
+            }*@
+        });
+    });
+
+   @* $('#checkout').click(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '/TTChamCongs/Checkout',
+            success: function (response) {
+                alert("Bạn đã chấm công thành công!")
+            }
+        });
+    });*@
+
+    $('#checkout').click(function (e) {
+        // Gọi yêu cầu AJAX
+        $.ajax({
+            type: 'GET',
+            url: '/TTChamCongs/Checkout',
+            success: function (response) {
+                if (response.success) {
+                    alert("Bạn đã chấm công thành công!");
+                }
+                else {
+                    alert("Bạn đã chấm công rồi. Không thể chấm công về được nữa.");
+                }
+            },
+        });
+    });
+
+</script>

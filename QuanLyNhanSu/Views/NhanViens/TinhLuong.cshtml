@@ -1,0 +1,80 @@
+﻿@model IEnumerable<QuanLyNhanSu.Models.Luong>
+@{
+    ViewBag.Title = "TinhLuong";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Bảng Lương Tháng @Session["ThangCong"] Của Nhân Viên </h2>
+<br />
+<hr />
+<table class="table table-hover text-center">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.IdNV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.HoTen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.GioiTinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.NgaySinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.ChucVu.TenCV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.PhongBan.TenPhong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nv.LuongCB)
+        </th>
+
+        <th>Tổng Ngày Công</th>
+        <th>Tổng Vi Phạm</th>
+        <th>Tổng Lương</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.IdNV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.HoTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.GioiTinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.NgaySinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.ChucVu.TenCV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.PhongBan.TenPhong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nv.LuongCB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongVP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongLuong)
+            </td>
+        </tr>
+
+    }
+
+</table>
+<h3>Tổng Số Lương Cần Trả Cho Các Nhân Viên: @Session["LuongTra"] (000 VNĐ)</h3>
+<div style="padding-left: 10px">
+    <button class="btn btn-danger w3-right w3-border" onclick="window.location.href='@Url.Action("Index")'">Trở lại</button>
+</div>

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ChucVu">
+    <Key>
+      <PropertyRef Name="IdCV" />
+    </Key>
+    <Property Name="IdCV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenCV" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="HopDong">
+    <Key>
+      <PropertyRef Name="IdHD" />
+    </Key>
+    <Property Name="IdHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdNV" Type="int" />
+    <Property Name="TenHD" Type="nvarchar" MaxLength="100" />
+    <Property Name="TuNgay" Type="date" />
+    <Property Name="DenNgay" Type="date" />
+  </EntityType>
+  <EntityType Name="NhanVien">
+    <Key>
+      <PropertyRef Name="IdNV" />
+    </Key>
+    <Property Name="IdNV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="IsAdmin" Type="bit" />
+    <Property Name="SDT" Type="varchar" MaxLength="10" />
+    <Property Name="GioiTinh" Type="nvarchar" MaxLength="3" />
+    <Property Name="NgaySinh" Type="date" />
+    <Property Name="QueQuan" Type="nvarchar" MaxLength="200" />
+    <Property Name="DanToc" Type="nvarchar" MaxLength="20" />
+    <Property Name="ChuyenNganh" Type="nvarchar" MaxLength="50" />
+    <Property Name="IdPB" Type="int" />
+    <Property Name="IdCV" Type="int" />
+    <Property Name="LuongCB" Type="float" />
+  </EntityType>
+  <EntityType Name="PhongBan">
+    <Key>
+      <PropertyRef Name="IdPB" />
+    </Key>
+    <Property Name="IdPB" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenPhong" Type="nvarchar" MaxLength="50" />
+    <Property Name="SDT" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TTChamCong">
+    <Key>
+      <PropertyRef Name="IdCC" />
+    </Key>
+    <Property Name="IdCC" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdNV" Type="int" />
+    <Property Name="NgayCC" Type="date" />
+    <Property Name="TVao" Type="time" Precision="7" />
+    <Property Name="TRa" Type="time" Precision="7" />
+    <Property Name="ViPham" Type="bit" />
+  </EntityType>
+  <Association Name="fk_ChucVu">
+    <End Role="ChucVu" Type="Self.ChucVu" Multiplicity="0..1" />
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChucVu">
+        <PropertyRef Name="IdCV" />
+      </Principal>
+      <Dependent Role="NhanVien">
+        <PropertyRef Name="IdCV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_NhanVienCC">
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+    <End Role="TTChamCong" Type="Self.TTChamCong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="IdNV" />
+      </Principal>
+      <Dependent Role="TTChamCong">
+        <PropertyRef Name="IdNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_NhanVienHD">
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+    <End Role="HopDong" Type="Self.HopDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="IdNV" />
+      </Principal>
+      <Dependent Role="HopDong">
+        <PropertyRef Name="IdNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_PhongBan">
+    <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PhongBan">
+        <PropertyRef Name="IdPB" />
+      </Principal>
+      <Dependent Role="NhanVien">
+        <PropertyRef Name="IdPB" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_TinhLuong" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdNV" Type="int" Mode="In" />
+    <Parameter Name="ThangCong" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TongNgayCong" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdNV" Type="int" Mode="In" />
+    <Parameter Name="ThangCong" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TongViPham" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdNV" Type="int" Mode="In" />
+    <Parameter Name="ThangCong" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="QuanLyModelStoreContainer">
+    <EntitySet Name="ChucVu" EntityType="Self.ChucVu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HopDong" EntityType="Self.HopDong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TTChamCong" EntityType="Self.TTChamCong" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_ChucVu" Association="Self.fk_ChucVu">
+      <End Role="ChucVu" EntitySet="ChucVu" />
+      <End Role="NhanVien" EntitySet="NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="fk_NhanVienCC" Association="Self.fk_NhanVienCC">
+      <End Role="NhanVien" EntitySet="NhanVien" />
+      <End Role="TTChamCong" EntitySet="TTChamCong" />
+    </AssociationSet>
+    <AssociationSet Name="fk_NhanVienHD" Association="Self.fk_NhanVienHD">
+      <End Role="NhanVien" EntitySet="NhanVien" />
+      <End Role="HopDong" EntitySet="HopDong" />
+    </AssociationSet>
+    <AssociationSet Name="fk_PhongBan" Association="Self.fk_PhongBan">
+      <End Role="PhongBan" EntitySet="PhongBan" />
+      <End Role="NhanVien" EntitySet="NhanVien" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
